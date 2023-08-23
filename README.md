@@ -1,6 +1,6 @@
-![Architecture flow](https://github.com/jakhibi/lifebit-test/blob/main/lifebit-test.png)
 # Lifebit Test App
 This is a Micro-service based application that will:
+![Architecture flow](https://github.com/jakhibi/lifebit-test/blob/main/lifebit-test.png)
 
 ## Setup an EKS Cluster on AWS
 Build a Node.js Docker Image
