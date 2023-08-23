@@ -1,3 +1,4 @@
+![Architecture flow](https://github.com/jakhibi/lifebit-test/blob/main/lifebit-test.png)
 # Lifebit Test App
 This is a Micro-service based application that will:
 
