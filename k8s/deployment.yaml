@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lifebit-app
+  labels:
+    app: lifebit-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lifebit-app
+  template:
+    metadata:
+      labels:
+        app: lifebit-app
+    spec:
+      containers:
+      - name: lifebit-app
+        image: jakhibi/lifebit-app
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 3000
