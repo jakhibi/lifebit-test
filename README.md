@@ -1,7 +1,7 @@
 # Lifebit Test App
-This is a Micro-service based application that will:
 ![Architecture flow](https://github.com/jakhibi/lifebit-test/blob/main/lifebit-test.png)
 
+This is a Micro-service based application that will:
 ## Setup an EKS Cluster on AWS
 Build a Node.js Docker Image
 Deploy the image to the EKS Cluster using a yaml declarative scrpits in Helm chart.
