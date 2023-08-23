@@ -1,6 +1,6 @@
 variable "cluster_name" {
     type = string
-    default = "lifebit-app2"
+    default = "lifebitapp"
 }
 
 variable "primary_region" {
