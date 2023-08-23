@@ -3,7 +3,7 @@ This is a Micro-service based application that will:
 
 ## Setup an EKS Cluster on AWS
 Build a Node.js Docker Image
-Deploy the image to the EKS Cluster using a yaml declarative scrpits in kubernetes.
+Deploy the image to the EKS Cluster using a yaml declarative scrpits in Helm chart.
 
 ## Setup an EKS Cluster on AWS
 Terraform is used to Setup the Kubernetes Cluster, on AWS. It will first setup the network sytem, the VPC, NAT, Subnets and all the system requires to run the Kubernetes cluster and applications within the infrastructure.
@@ -29,24 +29,12 @@ A deployment is automatically triggered whenever a push is done to the Github ma
 -Setup Docker CLI
 -Authenticate with Docker Hub
 -Build the Docker image and push to Docker registry
--Install Kubectl 
--Update kube config
--Deploy to EKS
--Post login to docker
--post setup Docker buildx
--Post configure AWS credentials
--Post code checkout
--Job completion
-
-#### Kubernetes configuration files
-There are 3 files writen to deploy the container
-deployment.yaml (for pod deployment)
-service.yaml (inter and external communications)
-hpa.yaml (autoscalling of pods. In case of high traffic, it supercides the numbers of replicas specified in deployment.yaml)
+-Install Helm Binary 
+-Deploy Application via Helm Chart
 
 ### Note: 
 Autoscaling of the nodes is controlled by the AWS autoscaling groups configured in the eks.tf file.
-A private Docker registry is used in the case to store our image. 
+
 
 ## Security Features in Setup
 Docker image is stored in a private repository in Dockerhub making the image not accessible over the internet
@@ -59,4 +47,4 @@ VPC/Network configuration has a public and private subnet. Private subnet helps 
 For AWS access, I have deployed a IAM user with with Administrator access. I will also be sending in the "access key and secrete access key" just for this deployment. I will terminate access from the IAM user in a latter date, after your review.
 
 ### Note: 
-Commented steps of the build action. I have written the commands to test the hpa.yaml (auto scalling of the pods with simulating traffic and terminations of traffic). But, as at the time of submitting this, I have not been able to make it work. Hence, the code commented out.
+Commented steps of the build action. I have written the commands to simulate traffic in and out of the application with corresponding scalling of the pods. If I had more time, going forward, I will implement the stress and load test that was commented out.  
