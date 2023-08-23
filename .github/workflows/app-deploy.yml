@@ -53,4 +53,4 @@ jobs:
       - name: Kube Auth and Deployment
         run: |
           aws eks update-kubeconfig --name lifebit-app2 --region eu-west-1
-          helm upgrade --install lifebitapp Lifebit-app/k8s/appchart --set deployment.appname.image.tag=latest
+          helm upgrade --install lifebitapp Lifebit-app/k8s/appchart --set deployment.appname.image.tag=${{ env.IMAGE_TAG }}
