@@ -3,85 +3,55 @@ name: Deloy App to EKS
 on:
   push:
     branches:
-      - "main"   
+      - "main"
 
 jobs:
   build-deploy-app:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    
     steps:
-      - name: Code Checkout
+      - name: Checkout
         uses: actions/checkout@v3
-      
-      
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-west-1
-
       
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-       
+      
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-     
-      - name: Build and push
-        working-directory: ./Lifebit-app
+      
+      - id: new-image-name
         run: |
-          docker build -t jakhibi/lifebit-app .
-          docker push jakhibi/lifebit-app
+          ABBREV_COMMIT="$(git log -1 --format=%h)"
+          IMAGE_TAG="${{ github.run_id }}-${{ github.run_attempt }}-${ABBREV_COMMIT}"
+          echo "IMAGE_TAG=${IMAGE_TAG}" >> "$GITHUB_ENV"
 
-      - name: Install kubectl
-        uses: azure/setup-kubectl@v2.0
-        with:
-          version: 'v1.24.0' # default is latest stable
-        id: install
-
+      - name: Build and push
+        run: |
+          docker build -t jakhibi/lifebit-app2 Lifebit-app/
+          docker push jakhibi/lifebit-app2
+      
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-1
+      
+      - name: Install Helm Binary
+        run : |
+          curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+          chmod 700 get_helm.sh
+          ./get_helm.sh
 
-      - name: Update kube config
-        run: aws eks update-kubeconfig --name eks-lifebit
-    
-      - name: Deploy to EKS
-        working-directory: ./k8s
+      - name: Kube Auth and Deployment
         run: |
-          kubectl apply -f deployment.yaml
-          kubectl apply -f service.yaml
-          kubectl apply -f hpa.yaml
-   
-      # - name: Set up Go
-      #   uses: actions/setup-go@v2
-      #   with:
-      #     go-version: 1.7  
-
-      # - name: Run Hey Benchmark
-      #   run: |
-      #     go get -u github.com/rakyll/hey
-      #     nohup hey -n 10 -c 2 -m POST -T "application/x-www-form-urlencoded" -d 'username=1&message=hello' http://your-rest-url/resource > hey_output.log 2>&1 &
-    
-      # - name: Wait for completion
-      #   run: sleep 300  # Adjust the sleep duration as needed
+          aws eks update-kubeconfig --name lifebit-app2 --region eu-west-1
+          helm upgrade --install lifebitapp Lifebit-app/k8s/appchart --set deployment.appname.image.tag=${{ env.IMAGE_TAG }}
           
-      # I am thinking of the best way to curl the loadbalancer??? Remember to write the code! ${{Loadbalancer}}
-
-
-
-
-
-
-
-

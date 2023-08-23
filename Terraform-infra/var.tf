@@ -1,6 +1,6 @@
 variable "cluster_name" {
     type = string
-    default = "eks-lifebit"
+    default = "lifebitapp"
 }
 
 variable "primary_region" {
@@ -10,5 +10,5 @@ variable "primary_region" {
 
 variable "failover_region" {
     type = string
-    default = "us-west-1"
+    default = "us-east-1"
 }
