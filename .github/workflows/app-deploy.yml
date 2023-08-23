@@ -3,7 +3,7 @@ name: Deloy App to EKS
 on:
   push:
     branches:
-      - "lifebit"   
+      - "main"   
 
 jobs:
   build-deploy-app:
