@@ -54,4 +54,19 @@ jobs:
         run: |
           aws eks update-kubeconfig --name lifebit-app2 --region eu-west-1
           helm upgrade --install lifebitapp Lifebit-app/k8s/appchart --set deployment.appname.image.tag=${{ env.IMAGE_TAG }}
-          
+
+        #- name: Set up Go
+          #   uses: actions/setup-go@v2
+          #   with:
+          #     go-version: 1.7  
+    
+          # - name: Run Hey Benchmark
+          #   run: |
+          #     go get -u github.com/rakyll/hey
+          #     nohup hey -n 10 -c 2 -m POST -T "application/x-www-form-urlencoded" -d 'username=1&message=hello' http://your-rest-url/resource > hey_output.log 2>&1 &
+        
+          # - name: Wait for completion
+          #   run: sleep 300  # Adjust the sleep duration as needed
+              
+          # I am thinking of the best way to curl the loadbalancer??? Remember to write the code! ${{Loadbalancer}}
+    
