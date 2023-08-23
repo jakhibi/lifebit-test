@@ -1,9 +1,8 @@
-name: Setup EKS
+name: Setup Infra
 
 on:
   pull_request:
-    branches:
-      - "lifebit"
+    types: [opened, reopened, synchronize]
   
 jobs:
   build-deploy-app:
