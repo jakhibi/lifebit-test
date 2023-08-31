@@ -13,6 +13,7 @@ The terraform code (configuration file) is located in the Terraform-infra direct
 
 ```hcl
 terraform init
+terraform plan
 terraform apply --auto-approve
 ```
 
