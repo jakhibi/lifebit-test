@@ -3,7 +3,7 @@
 
 This is a Micro-service based application that will:
 ## Setup an EKS Cluster on AWS
-Build a Node.js Docker Image
+Build a Node.js Docker Image,
 Deploy the image to the EKS Cluster using a yaml declarative scrpits in Helm chart.
 
 ## Setup an EKS Cluster on AWS
@@ -13,6 +13,7 @@ The terraform code (configuration file) is located in the Terraform-infra direct
 
 ```hcl
 terraform init
+terraform plan
 terraform apply --auto-approve
 ```
 
